@@ -14,7 +14,9 @@ public class Measurement {
         OZ,
         LB,
         GRAM,
-        KG
+        KG,
+        HALF_DOZEN,
+        DOZEN,
     }
 
 

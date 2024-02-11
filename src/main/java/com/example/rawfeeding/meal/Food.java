@@ -35,4 +35,8 @@ public class Food {
         this.measurement = measurement;
     }
     // end of getters and setters
+
+    public String toString() {
+        return "name: " + name + ", quantity: " + quantity + ", measurement: " + measurement;
+    }
 }

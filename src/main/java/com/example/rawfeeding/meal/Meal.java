@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class Meal {
     ArrayList<Food> foods;
+    String description;
 
     public Meal() {
         foods = new ArrayList<Food>();
@@ -19,6 +20,11 @@ public class Meal {
 
     public Meal(ArrayList<Food> foods) {
         this.foods = foods;
+    }
+
+    public Meal(ArrayList<Food> foods, String description) {
+        this(foods);
+        this.description = description;
     }
 
     /**
@@ -62,5 +68,13 @@ public class Meal {
         } catch (JsonProcessingException e) {
             throw new IOException(e);
         }
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

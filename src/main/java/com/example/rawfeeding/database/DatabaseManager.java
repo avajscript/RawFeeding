@@ -6,14 +6,14 @@ import java.sql.*;
 import java.util.Properties;
 
 public class DatabaseManager {
-    Properties properties = new Properties();
-    DatabaseManager databaseManager = null;
-    Connection connection = null;
-    String url;
-    String username;
-    String password;
+    private Properties properties = new Properties();
+    private static DatabaseManager databaseManager = null;
+    private static Connection connection = null;
+    private String url;
+    private String username;
+    private String password;
     private DatabaseManager() {}
-    public void loadProperties() {
+    public void static loadProperties() {
         try (InputStream input  = getClass().getClassLoader().getResourceAsStream("database.properties")) {
             if (input == null) {
                 System.out.println("Sorry, unable to find database.properties");
@@ -31,7 +31,7 @@ public class DatabaseManager {
         }
     }
 
-    public void initializeDatabaseConnection() {
+    public static void initializeDatabaseConnection() {
         try (
                 Connection localConnection = DriverManager.getConnection(url, username, password);
                 ) {
@@ -48,26 +48,32 @@ public class DatabaseManager {
         return connection;
     }
 
-    public DatabaseManager getInstance() {
+    public static DatabaseManager getInstance() {
         if (databaseManager == null) {
             loadProperties();
             initializeDatabaseConnection();
+            databaseManager = this;
         }
         return databaseManager;
     }
 
     public void insertUser(String username, String email, String password) {
         if (connection != null) {
-
-            try
+            String insertQuery = "INSERT INTO users (username, email, password_hash) VALUES (?, ?, MD5(?))";
+            try (PreparedStatement statement = connection.prepareStatement(insertQuery))
              {
-                PreparedStatement statement = connection.prepareStatement(
-                        "INSERT INTO users (username, email, password_hash) VALUES (?, ?, MD5(?))"
-                );
+                // Set the values for the statement
                 statement.setString(1, username);
                 statement.setString(2, email);
                 statement.setString(3, password);
 
+                // Execute the query
+                 int rowsAffected = statement.executeUpdate();
+                 if (rowsAffected > 0) {
+                     System.out.println("Data inserted successfully");
+                 } else {
+                    System.out.println("Failed to insert data");
+                 }
             } catch( SQLException sqlException) {
                 sqlException.printStackTrace();
             }

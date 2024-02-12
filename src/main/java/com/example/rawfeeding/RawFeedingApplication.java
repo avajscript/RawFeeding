@@ -16,10 +16,6 @@ import java.util.Arrays;
 @SpringBootApplication
 public class RawFeedingApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RawFeedingApplication.class, args);
-        Formatter jsonFormatter = new JSONFormatter();
-        Formatter formatter = new TextFormatter();
-        System.out.println("Hello ");
 
 
 

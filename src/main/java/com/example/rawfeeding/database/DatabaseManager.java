@@ -6,15 +6,15 @@ import java.sql.*;
 import java.util.Properties;
 
 public class DatabaseManager {
-    private Properties properties = new Properties();
+    private static Properties properties = new Properties();
     private static DatabaseManager databaseManager = null;
     private static Connection connection = null;
-    private String url;
-    private String username;
-    private String password;
+    private static String url;
+    private static String username;
+    private static String password;
     private DatabaseManager() {}
-    public void static loadProperties() {
-        try (InputStream input  = getClass().getClassLoader().getResourceAsStream("database.properties")) {
+    public static void loadProperties() {
+        try (InputStream input  = DatabaseManager.class.getClassLoader().getResourceAsStream("database.properties")) {
             if (input == null) {
                 System.out.println("Sorry, unable to find database.properties");
                 return;
@@ -48,11 +48,29 @@ public class DatabaseManager {
         return connection;
     }
 
+    /**
+     * Close the connection if it isn't null and
+     * the connect isn't already closed
+     */
+    public void closeConnection() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static DatabaseManager getInstance() {
+        // if databaseManager does not exist yet
         if (databaseManager == null) {
+            // loads the properties for the db connection from database.properties file
             loadProperties();
+            // sets the static connecton to the database
             initializeDatabaseConnection();
-            databaseManager = this;
+            databaseManager = new DatabaseManager();
         }
         return databaseManager;
     }

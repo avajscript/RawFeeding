@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DatabaseManagerTest {
     @Test
     public void testInsertUser() {
-        DatabaseManager databaseManager = DatabaseManager.g
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+
     }
 }

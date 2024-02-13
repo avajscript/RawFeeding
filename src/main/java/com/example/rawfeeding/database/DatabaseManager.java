@@ -14,7 +14,7 @@ public class DatabaseManager {
     private static String password;
     private DatabaseManager() {}
     public static void loadProperties() {
-        try (InputStream input  = DatabaseManager.class.getClassLoader().getResourceAsStream("database.properties")) {
+        try (InputStream input  = DatabaseManager.class.getClassLoader().getResourceAsStream("/database.properties")) {
             if (input == null) {
                 System.out.println("Sorry, unable to find database.properties");
                 return;
@@ -98,5 +98,9 @@ public class DatabaseManager {
 
         }
 
+    }
+
+    public String getProperties() {
+        return "url= " + url + ", username" + username + ", password=" + password;
     }
 }

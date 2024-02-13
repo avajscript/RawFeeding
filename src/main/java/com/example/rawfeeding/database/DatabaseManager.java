@@ -14,7 +14,7 @@ public class DatabaseManager {
     private static String password;
     private DatabaseManager() {}
     public static void loadProperties() {
-        try (InputStream input  = DatabaseManager.class.getClassLoader().getResourceAsStream("/database.properties")) {
+        try (InputStream input  = DatabaseManager.class.getClassLoader().getResourceAsStream("database.properties")) {
             if (input == null) {
                 System.out.println("Sorry, unable to find database.properties");
                 return;
@@ -23,9 +23,9 @@ public class DatabaseManager {
             // Load the properties file
             properties.load(input);
             // set the class attributes from the properties
-            url = properties.getProperty("jbdc.url");
-            username = properties.getProperty("jbdc.username");
-            password = properties.getProperty("jbdc.password");
+            url = properties.getProperty("jdbc.url");
+            username = properties.getProperty("jdbc.username");
+            password = properties.getProperty("jdbc.password");
         } catch (Exception e) {
             throw new RuntimeException("Failed to load database properties");
         }
@@ -69,7 +69,7 @@ public class DatabaseManager {
             // loads the properties for the db connection from database.properties file
             loadProperties();
             // sets the static connecton to the database
-            initializeDatabaseConnection();
+            //initializeDatabaseConnection();
             databaseManager = new DatabaseManager();
         }
         return databaseManager;

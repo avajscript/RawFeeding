@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.sql.*;
 import java.util.Properties;
+import java.util.Random;
 
 public class DatabaseManager {
     private static Properties properties = new Properties();
@@ -125,8 +126,28 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * Executes stored procedures based on provided CallableStatement statement
+     * @param statement
+     * @param successMessage
+     * @param failureMessage
+     */
     public void executeDatabaseProcedure(CallableStatement statement, String successMessage, String failureMessage) {
+            if (connection != null) {
+                try {
+                    boolean result = statement.execute();
 
+                    if (!result) {
+                        System.out.println(successMessage);
+                    } else {
+                        System.out.println(failureMessage);
+                    }
+                } catch (SQLException sqlException) {
+                    sqlException.printStackTrace();
+                } finally {
+                    closeConnection();
+                }
+            }
 
     }
 
@@ -136,7 +157,7 @@ public class DatabaseManager {
      * @param description
      * @param image_url
      */
-    public void insertMeal(String categoryName, String name, String description, String image_url, ) {
+    public void insertMeal(String categoryName, String name, String description, String image_url) {
         initializeDatabaseConnection();
         // sets the static connection to the database
         String procedure = "{ call InsertMeal(?, ?, ?, ?) }";
@@ -148,9 +169,9 @@ public class DatabaseManager {
             statement.setString(3, description);
             statement.setString(4, image_url);
 
-            // performs the actual insert
+            // performs the actual procedure
             // Used only to reduce repetitive code
-            executeDatabaseStatement(statement, "Food category data inserted successfully", "Failed to insert food category data");
+            executeDatabaseProcedure(statement, "Meal successfully inserted into database", "Failure inserting meal into database");
         } catch( SQLException sqlException) {
             sqlException.printStackTrace();
         }

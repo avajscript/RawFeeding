@@ -19,13 +19,8 @@ import java.util.Random;
 public class RawFeedingApplication {
     public static void main(String[] args) {
 
-        Random random = new Random();
-        int range = 1000000000;
         DatabaseManager databaseManager = DatabaseManager.getInstance();
-
-        databaseManager.insertCategory("category_name" + random.nextInt(range),
-                "category_description" + random.nextInt(range),
-                "image_url" + random.nextInt(range));
+        databaseManager.insertMeal("beef", "ground beef", "ground beef description", "beef.png");
 
     }
 

@@ -28,4 +28,10 @@ class DatabaseManagerTest {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         System.out.println(databaseManager.getProperties());
     }
+
+    @Test
+    public void testInsertMeal() {
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        databaseManager.insertMeal("beef", "ground beef", "ground beef description", "beef.png");
+    }
 }

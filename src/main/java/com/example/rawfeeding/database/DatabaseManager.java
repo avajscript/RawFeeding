@@ -1,8 +1,12 @@
 package com.example.rawfeeding.database;
 
+import com.example.rawfeeding.meal.Food;
+import com.example.rawfeeding.meal.Measurement;
+
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Random;
 
@@ -157,8 +161,9 @@ public class DatabaseManager {
      * @param description
      * @param image_url
      */
-    public void insertMeal(String categoryName, String name, String description, String image_url) {
+    public int insertMeal(String categoryName, String name, String description, String image_url) {
         initializeDatabaseConnection();
+        int meal_id = 0;
         // sets the static connection to the database
         String procedure = "{ call InsertMeal(?, ?, ?, ?) }";
         try (CallableStatement statement = connection.prepareCall(procedure))
@@ -172,8 +177,38 @@ public class DatabaseManager {
             // performs the actual procedure
             // Used only to reduce repetitive code
             executeDatabaseProcedure(statement, "Meal successfully inserted into database", "Failure inserting meal into database");
+
+            // the procedure returns the meal_id from the one that was just created
+            meal_id = statement.getInt(5);
         } catch( SQLException sqlException) {
             sqlException.printStackTrace();
+        }
+        return meal_id;
+    }
+
+    public void insertFood(int meal_id, String name, String currency, double price, Measurement.measurement measurement, double quantity) {
+        initializeDatabaseConnection();
+        // sets the static connection to the database
+        String procedure = "{ call insertFood(?, ?, ? ?, ?, ?) }";
+
+        try (CallableStatement statement = connection.prepareCall(procedure)) {
+            statement.setInt(1, meal_id);
+            statement.setString(2, name);
+            statement.setString(3, currency);
+            statement.setString(4, procedure);
+            statement.setString(5, (String) "" + measurement);
+            statement.setInt(16, quantity);
+
+            executeDatabaseProcedure(statement, "Food successfully inserted into database", "Failure to insert food into database");
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+    }
+
+    public void insertWholeMeal(ArrayList<Food> foods, String categoryName, String name, String description, String image_url) {
+        int meal_id = insertMeal(categoryName, name, description, image_url);
+        for (Food food : foods) {
+            insertFood(meal_id, food.getName(), food.getCurrency(), food.getPrice(), food.getMeasurement(), food.getQuantity());
         }
     }
 

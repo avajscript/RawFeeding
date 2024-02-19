@@ -11,14 +11,17 @@ import java.util.ArrayList;
  * This class is used for generating meals, where u can add different foods to it
  */
 public class Meal {
+    private String name;
     private ArrayList<Food> foods;
     private String description;
+    private String image_url;
 
     public Meal() {
         foods = new ArrayList<Food>();
     }
 
     public Meal(ArrayList<Food> foods) {
+
         this.foods = foods;
     }
 
@@ -50,6 +53,10 @@ public class Meal {
         }
     }
 
+    public ArrayList<Food> getFoods() {
+        return foods;
+    }
+
     /**
      * Returns a string array of all foods in the meal based on the given formatter
      * @param formatter the formatter that specifies what type of format to return
@@ -77,4 +84,22 @@ public class Meal {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImage_url(){
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+
+
 }

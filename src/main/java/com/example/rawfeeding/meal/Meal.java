@@ -11,8 +11,8 @@ import java.util.ArrayList;
  * This class is used for generating meals, where u can add different foods to it
  */
 public class Meal {
-    ArrayList<Food> foods;
-    String description;
+    private ArrayList<Food> foods;
+    private String description;
 
     public Meal() {
         foods = new ArrayList<Food>();

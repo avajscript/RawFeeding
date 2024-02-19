@@ -11,6 +11,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -18,9 +20,6 @@ import java.util.Random;
 @SpringBootApplication
 public class RawFeedingApplication {
     public static void main(String[] args) {
-
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        databaseManager.insertMeal("beef", "ground beef", "ground beef description", "beef.png");
 
     }
 

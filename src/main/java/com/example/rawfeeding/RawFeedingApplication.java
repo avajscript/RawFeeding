@@ -20,7 +20,7 @@ import java.util.Random;
 @SpringBootApplication
 public class RawFeedingApplication {
     public static void main(String[] args) {
-
+        SpringApplication.run(RawFeedingApplication.class, args);
     }
 
 }

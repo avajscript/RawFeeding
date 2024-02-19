@@ -3,29 +3,36 @@ package com.example.rawfeeding.meal;
 import com.example.rawfeeding.Formatting.Formatter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is used for generating meals, where u can add different foods to it
  */
+@Entity
 public class Meal {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="meal_id")
+    private Long id;
     private String name;
-    private ArrayList<Food> foods;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "meal_id")
+    private List<Food> foods = new ArrayList<>();
     private String description;
     private String image_url;
 
-    public Meal() {
-        foods = new ArrayList<Food>();
-    }
+    public Meal() {}
 
-    public Meal(ArrayList<Food> foods) {
+    public Meal(List<Food> foods) {
 
         this.foods = foods;
     }
 
-    public Meal(ArrayList<Food> foods, String description) {
+    public Meal(List<Food> foods, String description) {
         this(foods);
         this.description = description;
     }
@@ -53,7 +60,7 @@ public class Meal {
         }
     }
 
-    public ArrayList<Food> getFoods() {
+    public List<Food> getFoods() {
         return foods;
     }
 

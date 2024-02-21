@@ -36,4 +36,6 @@ public class MealController {
     public Meal saveMeal(@Validated @RequestBody Meal meal) {
         return mealService.saveMeal(meal);
     }
+
+    @PostMapping("/")
 }
